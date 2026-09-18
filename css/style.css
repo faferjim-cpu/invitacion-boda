@@ -11,26 +11,90 @@ body {
     align-items: center;
     background: #eee7dc;
     font-family: Georgia, serif;
+    overflow: hidden;
+}
+
+.scene {
+    width: 100%;
+    text-align: center;
 }
 
 .envelope {
     position: relative;
     width: 320px;
     height: 220px;
-    background: #f8f4ec;
-    border-radius: 4px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    margin: 0 auto;
+    perspective: 1000px;
 }
 
-.envelope::before {
-    content: "";
+/* TARJETA */
+
+.card {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    width: 280px;
+    height: 180px;
+    background: #fffdf8;
+    border-radius: 3px;
+    z-index: 2;
+    transition: transform 1.2s ease;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.card-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #6d6256;
+}
+
+.card-content p {
+    font-size: 25px;
+}
+
+.card-content span {
+    font-size: 18px;
+    margin: 5px;
+}
+
+/* SOLAPA DEL SOBRE */
+
+.flap {
     position: absolute;
     top: 0;
     left: 0;
-    border-left: 160px solid transparent;
-    border-right: 160px solid transparent;
-    border-top: 110px solid #e5ddd0;
+    width: 320px;
+    height: 125px;
+    background: #e5ddd0;
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top center;
+    transition: transform 1s ease;
+    z-index: 5;
 }
+
+/* PARTE DELANTERA DEL SOBRE */
+
+.front {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 320px;
+    height: 130px;
+    background: #f8f4ec;
+    clip-path: polygon(
+        0 0,
+        50% 48%,
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+    z-index: 4;
+}
+
+/* SELLO */
 
 .seal {
     position: absolute;
@@ -45,18 +109,36 @@ body {
     justify-content: center;
     align-items: center;
     color: white;
-    font-size: 24px;
+    font-size: 25px;
     z-index: 10;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
+/* TEXTO */
+
 .instruction {
-    position: absolute;
-    top: calc(50% + 140px);
-    width: 100%;
-    text-align: center;
+    margin-top: 35px;
     color: #6d6256;
     font-size: 14px;
     letter-spacing: 1px;
+}
+
+/* ========================= */
+/* SOBRE ABIERTO */
+/* ========================= */
+
+.envelope.open .flap {
+    transform: rotateX(180deg);
+    z-index: 1;
+}
+
+.envelope.open .card {
+    transform: translateY(-105px);
+}
+
+.envelope.open .seal {
+    opacity: 0;
+    pointer-events: none;
 }
